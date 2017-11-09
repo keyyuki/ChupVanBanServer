@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser')();
 const cors = require('cors')({origin: true});
 const app = express();
 const AuthenticatePlugin = require('./AuthenticatePlugin');
+const MCVBRouter = require('./Router/mcvb.js');
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/functions/write-firebase-functions
@@ -18,6 +19,7 @@ const AuthenticatePlugin = require('./AuthenticatePlugin');
 app.use(cors);
 app.use(cookieParser);
 app.use(AuthenticatePlugin);
+app.use('/m', MCVBRouter);
 app.get('/hello', (req, res) => {
     res.send(`Hello ${req.user.name}`);
 });
