@@ -5,7 +5,7 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const express = require('express');
 const cookieParser = require('cookie-parser')();
-const cors = require('cors')({origin: true});
+const cors = require('cors')({ origin: true });
 const app = express();
 const AuthenticatePlugin = require('./AuthenticatePlugin');
 const MCVBRouter = require('./Router/mcvb.js');
@@ -21,6 +21,9 @@ app.use(cookieParser);
 app.use(AuthenticatePlugin);
 app.use('/m', MCVBRouter);
 app.get('/hello', (req, res) => {
+    res.send(`Hello ${req.user.name}`);
+});
+app.post('/hello', (req, res) => {
     res.send(`Hello ${req.user.name}`);
 });
 
