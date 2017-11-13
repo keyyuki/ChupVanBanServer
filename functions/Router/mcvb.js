@@ -5,7 +5,7 @@ const admin = require('firebase-admin');
 const express = require('express');
 const app = express.Router();
 const request = require('request');
-const firebaseConfig = require('../../firebaseConfig.json');
+const firebaseConfig = require('../firebaseConfig.js');
 
 app.post('/textrecognition', function(req, res) {
     if (!req.body.imageBase64) {

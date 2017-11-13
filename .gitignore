@@ -1,4 +1,4 @@
 */node_modules/*
 */npm-debug.log
 ./*.log
-./firebaseConfig.json
+./functions/firebaseConfig.js
