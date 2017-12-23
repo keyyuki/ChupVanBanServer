@@ -6,6 +6,13 @@ const express = require('express');
 const app = express.Router();
 const request = require('request');
 const firebaseConfig = require('../firebaseConfig.js');
+const Translate = require('@google-cloud/translate');
+const projectId = 'anhhunglau-7b113';
+
+// Instantiates a client
+const translate = new Translate({
+    projectId: projectId,
+});
 
 app.post('/textrecognition', function(req, res) {
     if (!req.body.imageBase64) {
@@ -13,7 +20,7 @@ app.post('/textrecognition', function(req, res) {
         return;
     }
     var fileSize = getBase64FileSize(req.body.imageBase64);
-    if (fileSize >= 4 * 1024 * 1024) {
+    if (fileSize >= 2 * 1024 * 1024) {
         console.log('Dung lượng ảnh quá lớn', fileSize);
         res.send(JSON.stringify({ code: 0, messages: ['Dung lượng ảnh quá lớn'] }));
         return;
@@ -57,6 +64,23 @@ app.post('/textrecognition', function(req, res) {
         }
     });
 });
+app.post('/texttranslate', function(req, res) {
+    if (!req.body.q) {
+        res.send(JSON.stringify({ code: 0, messages: ['Dữ liệu không hợp lệ'] }));
+        return;
+    }
+    translate
+        .translate(req.body.q, 'vi')
+        .then(results => {
+            const translation = results[0];
+
+            res.send(JSON.stringify({ code: 1, data: { translatedText: translation } }));
+            return;
+        })
+        .catch(err => {
+            console.error('ERROR:', err);
+        });
+})
 
 function getBase64FileSize(base64Encodeed) {
     if (!base64Encodeed) {
