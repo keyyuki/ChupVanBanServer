@@ -79,6 +79,7 @@ app.post('/texttranslate', function(req, res) {
         })
         .catch(err => {
             console.error('ERROR:', err);
+            res.send(JSON.stringify({ code: 0, messages: ['Lỗi chưa biết'] }));
         });
 })
 
